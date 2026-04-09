@@ -1,13 +1,12 @@
 import time
 import keyboard
 
-from state import State
-import detection as det
-import actions as act
-import config as cfg
-import cv2 as cv2
+from GrinderBot.state import State
+import GrinderBot.detection as det
+import GrinderBot.actions as act
+from GrinderBot.constants import *
 
-#foo
+
 state = State.IDLE
 running = False
 
@@ -45,7 +44,7 @@ while True:
 
     if state == State.MENU:
 
-        if det.is_menu() and (now - last_menu_press > cfg.MENU_PRESS_DELAY):
+        if det.is_menu() and (now - last_menu_press > MENU_PRESS_DELAY):
             print("Menu → Enter")
             act.press_menu_confirm()
             last_menu_press = now
@@ -69,7 +68,7 @@ while True:
             time.sleep(0.3)
             continue
 
-        if now - last_action_time > cfg.COMBAT_ACTION_DELAY:
+        if now - last_action_time > COMBAT_ACTION_DELAY:
             act.fight_combo()
             last_action_time = now
 
