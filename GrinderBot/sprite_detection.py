@@ -22,7 +22,7 @@ class SpriteDetector:
             if path.suffix.lower() in allowedImageTypes:
                 img = cv2.imread(str(path))
                 if img is not None:
-                    sprites[path.stem] = img
+                    sprites[path.stem] = to_edges(img)
                 else:
                     print(f"[WARN] Could not load sprite: {path} — skipping")
 
@@ -45,12 +45,12 @@ class SpriteDetector:
                 KEY_label:      str or None,
             }
         """
-        frame_edges = to_edges(frame)
+        small = cv2.resize(frame, (0,0), fx=DETECTION_SCALE, fy=DETECTION_SCALE)
+        frame_edges = to_edges(small)
         raw_boxes, raw_scores, raw_labels = [], [], []
 
         for label, tmpl in self.sprites.items():
-            tmpl_edges = to_edges(tmpl)
-            box, conf, _ = multiscale_edge_match(frame_edges, tmpl_edges)
+            box, conf, _ = multiscale_edge_match(frame_edges, tmpl)
             if box and conf >= MATCH_THRESH:
                 raw_boxes.append(box)
                 raw_scores.append(conf)
@@ -70,8 +70,12 @@ class SpriteDetector:
         # Recover the label whose raw score is closest to the kept score
         label_idx = int(np.argmin([abs(best_score - s) for s in raw_scores]))
         best_label = raw_labels[label_idx]
-
+        
         x, y, w, h = best_box
+        box = (int(x / DETECTION_SCALE), int(y / DETECTION_SCALE), 
+           int(w / DETECTION_SCALE), int(h / DETECTION_SCALE))
+        x, y, w, h = box
+        
         return {
             KEY_found:      True,
             KEY_position:   (x, y),

@@ -14,14 +14,14 @@ frame = cv2.imread("tests/test.png")
 # Warmup call so any lazy init doesn't skew results
 detector.detect(frame)
 
-# Profile over 10 runs
-with cProfile.Profile() as pr:
-    for _ in range(10):
-        detector.detect(frame)
+# # Profile over 10 runs
+# with cProfile.Profile() as pr:
+#     for _ in range(10):
+#         detector.detect(frame)
 
-stats = pstats.Stats(pr)
-stats.sort_stats("cumulative")
-stats.print_stats(20)
+# stats = pstats.Stats(pr)
+# stats.sort_stats("cumulative")
+# stats.print_stats(20)
 
 # Still show a single-run time
 startT = perf_counter()
