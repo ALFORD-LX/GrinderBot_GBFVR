@@ -33,3 +33,27 @@ if result["found"]:
 else:
     print("Sprite not found")
 print(f"Time to detect 1 frame: {endT - startT:.4f}s")
+
+if result["found"]:
+    x, y, w, h = result["box"]
+    xp, yp = result["position"]
+    confidence = result["confidence"]
+    label = f"{detector.sprite_name}: {confidence:.2f}"
+
+    # Draw rectangle (green)
+    cv2.rectangle(frame, (xp, yp), (x + w, y + h), (0, 255, 0), 2)
+
+    # Draw label background (optional)
+    cv2.rectangle(frame, (x, y - 20), (x + len(label) * 10, y), (0, 255, 0), -1)
+
+    # Draw text (white)
+    cv2.putText(frame, label, (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
+
+    print(f"Found at ({x}, {y}) with confidence {confidence:.2f}")
+else:
+    print("Sprite not found")
+
+# Display the image
+cv2.imshow("Detection Result", frame)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
