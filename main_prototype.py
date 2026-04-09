@@ -5,6 +5,7 @@ from state import State
 import detection as det
 import actions as act
 import config as cfg
+import cv2 as cv2
 
 
 state = State.IDLE
