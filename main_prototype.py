@@ -7,7 +7,7 @@ import actions as act
 import config as cfg
 import cv2 as cv2
 
-
+#foo
 state = State.IDLE
 running = False
 
