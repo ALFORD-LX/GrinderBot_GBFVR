@@ -12,3 +12,5 @@
 /Granblue Fantasy Versus_ Rising   2026-04-08 12_17_11 AM.png
 
 *.egg-info
+*.pyc
+__pycache__
