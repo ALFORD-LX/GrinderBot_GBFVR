@@ -1,1 +1,1 @@
-from .sprite_detection import SpriteDetector   
+from .sprite_detection import SpriteDetector, CharacterFinder
